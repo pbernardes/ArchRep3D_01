@@ -33,19 +33,14 @@ and open the template in the editor.
             // to access DB
             include 'funcAux/funcAux_BD.php';
             
+            // to access variables
             include 'funcAux/init_varArchRep3D.php';
             
             // to access Classes
             include 'Classes/edificio.class.php';  
             include 'Classes/pormenor.class.php';
             include 'Classes/parteEdificio.class.php';
-            
-            
-            /*$meshes='';
-            $modelInstances='';
-            $spots='';
-            $transColor = 'transform : { matrix: SglMat4.mul(SglMat4.translation([0, 0, 0]), SglMat4.scaling([ 1.0, 1.0, 1.0])) },
-                           color : [0.0, 0.25, 1.0]';*/
+                        
                    
             // load all data of the 'edificio'
             if( edificio::isEmpty_ed() > 0 ){
@@ -198,9 +193,6 @@ and open the template in the editor.
         
         var edificio = <?php echo json_encode($ed->jsonSerialize()); ?>; 
         
-        var edificio2 = new Array();
-        edificio2 = <?php echo json_encode($ed); ?>;
-        
         var teste = <?php echo json_encode( $pormenoresEdificio[0]->jsonSerialize() ); ?>;
         
         var option = <?php echo $option?>;
@@ -216,11 +208,11 @@ and open the template in the editor.
                 // Hide Spots
                 presenter.setSpotVisibility(HOP_ALL, false, true);                                             
                 
+                // highlight spots
                 presenter._onPickedSpot = onPickedSpot;  
                 presenter._onLeaveSpot = onLeaveSpot;
-                //presenter._onPickedInstance = onPickedInstance;
                 
-                //presenter._onEnterSpot = onEnterSpot;
+                // activate 3D instances
                 presenter._onEnterInstance = onEnterInstance;
                 presenter._onLeaveInstance = onLeaveInstance;
         }
