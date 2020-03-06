@@ -33,23 +33,25 @@ and open the template in the editor.
             // to access DB
             include 'funcAux/funcAux_BD.php';
             
+            include 'funcAux/init_varArchRep3D.php';
+            
             // to access Classes
             include 'Classes/edificio.class.php';  
             include 'Classes/pormenor.class.php';
             include 'Classes/parteEdificio.class.php';
             
             
-            $meshes='';
+            /*$meshes='';
             $modelInstances='';
             $spots='';
             $transColor = 'transform : { matrix: SglMat4.mul(SglMat4.translation([0, 0, 0]), SglMat4.scaling([ 1.0, 1.0, 1.0])) },
-                           color : [0.0, 0.25, 1.0]';
+                           color : [0.0, 0.25, 1.0]';*/
                    
             // load all data of the 'edificio'
             if( edificio::isEmpty_ed() > 0 ){
 
                 $ed = new edificio();   
-                $ed->getAllInfo_ed(1);                                                    
+                $ed->getAllInfo_ed(1);                
                 
                 // initialize the array of building parts
                 $partesEdificio[] = NULL;
@@ -194,7 +196,12 @@ and open the template in the editor.
         var name_pormenor = <?php echo json_encode($pormenoresEdificio[0]->getName_por()); ?>;
         var des_pormenor = <?php echo json_encode($des_pormenor); ?>;
         
-        var edificio = <?php echo json_encode($ed->jsonSerialize()); ?>;                
+        var edificio = <?php echo json_encode($ed->jsonSerialize()); ?>; 
+        
+        var edificio2 = new Array();
+        edificio2 = <?php echo json_encode($ed); ?>;
+        
+        var teste = <?php echo json_encode( $pormenoresEdificio[0]->jsonSerialize() ); ?>;
         
         var option = <?php echo $option?>;
         
