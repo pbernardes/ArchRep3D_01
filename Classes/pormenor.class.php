@@ -25,38 +25,44 @@ class pormenor {
 
     public function getId_por() {
         return $this->id_por;
-    }
+    } // end of getId_por()
 
     public function getName_por() {
         return $this->name_por;
-    }
+    } // end of getName_por()
 
     public function getDescription_por() {
         return $this->description_por;
-    }
+    } // end of getDescription_por()
 
     public function getModelPath_por() {
         return $this->modelPath_por;
-    }
+    } // end of getModelPath_por()
 
-    public function setId_por($id_por) {
+    public function setId_por( $id_por ) {
         $this->id_por = $id_por;
-    }
+    } // end of setId_por( $id_por )
 
-    public function setName_por($name_por) {
+    public function setName_por( $name_por ) {
         $this->name_por = $name_por;
-    }
+    } // end of setName_por( $name_por )
 
-    public function setDescription_por($description_por) {
+    public function setDescription_por( $description_por ) {
         $this->description_por = $description_por;
-    }
+    } // end of setDescription_por( $description_por )
 
-    public function setModelPath_por($modelPath_por) {
+    public function setModelPath_por( $modelPath_por ) {
         $this->modelPath_por = $modelPath_por;
-    }
+    } // end of setModelPath_por( $modelPath_por )
 
     // Database access    
     
+    /**
+     * 
+     * @param int $id_pormenor
+     * 
+     * @author Paulo Bernardes
+     */
     public function getAllInfo_por( $id_pormenor ){
         
         // create DB connection
@@ -66,9 +72,9 @@ class pormenor {
         selectDatabase( $con );
  
         // select data
-        $result = mysql_query( 'SELECT * FROM pormenor WHERE id_pormenor='.$id_pormenor );
+        $result = mysqli_query( $con, 'SELECT * FROM pormenor WHERE id_pormenor='.$id_pormenor );
 
-        $row = mysql_fetch_array($result);
+        $row = mysqli_fetch_array($result);
         
         //id of the object
         $this->setId_por($row['id_pormenor']);
@@ -82,9 +88,16 @@ class pormenor {
         // path to the 3D model of the object
         $this->setModelPath_por($row['caminhoModelo_pormenor']);
         
-        mysql_close();
-    }
+        mysqli_close( $con );
+    } // end of getAllInfo_por( $id_pormenor )
     
+    /**
+     * 
+     * @return string array
+     * 
+     * @author Paulo Bernardes
+     * 
+     */
     public function jsonSerialize(){
         return [
             'pormenor' => [
@@ -94,7 +107,7 @@ class pormenor {
                 'modelPath_por' => $this->modelPath_por    
             ]
         ];
-    }
+    } // end of jsonSerialize()
     
     // static functions
     
@@ -112,23 +125,24 @@ class pormenor {
         selectDatabase( $con );
  
         // select data
-        $result = mysql_query( 'SELECT COUNT(*) as NumPor FROM pormenor');
+        $result = mysqli_query( $con, 'SELECT COUNT(*) as NumPor FROM pormenor');
         
         // count the number of objects in the table
-        $row = mysql_fetch_assoc($result);      
+        $row = mysqli_fetch_assoc( $result );      
         
         // close the DB
-        mysql_close();
+        mysqli_close( $con );
         
         //return the number of objects in the table
-        return ( $row['NumPor'] == 0 );
-        
-    }// end of isEmpty_ed()
-    
-    
+        return ( $row['NumPor'] == 0 );        
+    } // end of isEmpty_ed()
+      
     /**
      * 
      * @return int - number of elements in the pomenor table
+     * 
+     * @author Paulo Bernardes
+     * 
      */
     public static function totalNumber_por(){
         // create DB connection
@@ -138,15 +152,15 @@ class pormenor {
         selectDatabase( $con );
  
         // select data
-        $result = mysql_query( 'SELECT COUNT(*) as NumPor FROM pormenor');
+        $result = mysqli_query( $con, 'SELECT COUNT(*) as NumPor FROM pormenor');
         
         // count the number of objects in the table
-        $row = mysql_fetch_assoc($result);      
+        $row = mysqli_fetch_assoc( $result );      
         
         // close the DB
-        mysql_close();
+        mysqli_close( $con );
         
         //return the number of objects in the table
         return $row['NumPor'];        
-    }
+    } // end of totalNumber_por()
 }

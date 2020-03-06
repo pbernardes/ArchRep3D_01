@@ -6,7 +6,7 @@
  */
 
 function connectDatabase (){
-    $con = mysql_connect('localhost', 'root', '');
+    $con = mysqli_connect('localhost', 'root', '');
     if (!$con)
       {
       die('Could not connect: ' . mysql_error());
@@ -17,7 +17,7 @@ function connectDatabase (){
 
 function selectDatabase( $con ){
 
-    $db_selected = mysql_select_db('edificios', $con);
+    $db_selected = mysqli_select_db( $con, 'edificios');
 
     if (!$db_selected)
       {
@@ -25,7 +25,7 @@ function selectDatabase( $con ){
       }  
    
       
-    mysql_set_charset("utf8",$con);
+    mysqli_set_charset($con, "utf8");
 }
 
 ?>

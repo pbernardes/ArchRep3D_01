@@ -12,21 +12,21 @@ and open the template in the editor.
         <link type="text/css" rel="stylesheet" href="bootstrap-4.4.1-dist/css/bootstrap.css"/>
         <link type="text/css" rel="stylesheet" href="stylesheet/3dhop.css"/>  
         <!--SPIDERGL-->
-        <script type="text/javascript" src="js/spidergl.js"></script>
+        <script type="text/javascript" src="js/3DHOP/spidergl.js"></script>
         <!--JQUERY-->
-        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/3DHOP/jquery.js"></script>
         <!--PRESENTER-->
-        <script type="text/javascript" src="js/presenter.js"></script>
+        <script type="text/javascript" src="js/3DHOP/presenter.js"></script>
         <!--3D MODELS LOADING AND RENDERING-->
-        <script type="text/javascript" src="js/nexus.js"></script>
-        <script type="text/javascript" src="js/ply.js"></script>
+        <script type="text/javascript" src="js/3DHOP/nexus.js"></script>
+        <script type="text/javascript" src="js/3DHOP/ply.js"></script>
         <!--TRACKBALLS-->
-        <script type="text/javascript" src="js/trackball_sphere.js"></script>
-        <script type="text/javascript" src="js/trackball_turntable.js"></script>
-        <script type="text/javascript" src="js/trackball_turntable_pan.js"></script>
-        <script type="text/javascript" src="js/trackball_pantilt.js"></script>
+        <script type="text/javascript" src="js/3DHOP/trackball_sphere.js"></script>
+        <script type="text/javascript" src="js/3DHOP/trackball_turntable.js"></script>
+        <script type="text/javascript" src="js/3DHOP/trackball_turntable_pan.js"></script>
+        <script type="text/javascript" src="js/3DHOP/trackball_pantilt.js"></script>
         <!--UTILITY-->
-        <script type="text/javascript" src="js/init.js"></script>       
+        <script type="text/javascript" src="js/3DHOP/init.js"></script>       
     </head>
     <body>        
         <?php
