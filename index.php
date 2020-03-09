@@ -102,12 +102,8 @@ and open the template in the editor.
                         $spots = $spots.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'} ';
                     }                                           
                      
-                }
-                
-                $teste_pormenor = new pormenor();
-                $teste_pormenor->getAllInfo_por(1);
-                $des_pormenor = $teste_pormenor->getDescription_por();
-            }
+                } // end FOR                
+            } // end IF
             else {
                 //echo 'Lista de pormenores vazia...';
             }            
@@ -187,18 +183,25 @@ and open the template in the editor.
 
     <script type="text/javascript">
         var presenter = null;
-        
-        var name_pormenor = <?php echo json_encode($pormenoresEdificio[0]->getName_por()); ?>;
-        var des_pormenor = <?php echo json_encode($des_pormenor); ?>;
-        
+                
         var edificio = <?php echo json_encode($ed->jsonSerialize()); ?>; 
         
-        var teste = <?php echo json_encode( $pormenoresEdificio[0]->jsonSerialize() ); ?>;
+        var lengh_partesEdificio = <?php echo json_encode(sizeof($partesEdificio)) ?>;
+        var partesEdificio = [];
         
+        partesEdificio.push(<?php echo json_encode(array_shift($partesEdificio)->jsonSerialize() ); ?>);
+        partesEdificio.push(<?php echo json_encode(array_shift($partesEdificio)->jsonSerialize() ); ?>);
+        partesEdificio.push(<?php echo json_encode(array_shift($partesEdificio)->jsonSerialize() ); ?>);
+        partesEdificio.push(<?php echo json_encode(array_shift($partesEdificio)->jsonSerialize() ); ?>);
+        partesEdificio.push(<?php echo json_encode(array_shift($partesEdificio)->jsonSerialize() ); ?>);
+        partesEdificio.push(<?php echo json_encode(array_shift($partesEdificio)->jsonSerialize() ); ?>);                
+        
+        var lengh = <?php echo json_encode (sizeof($pormenoresEdificio)) ?>;        
+        var pormenor = [];
+        pormenor.push(<?php echo json_encode(array_shift($pormenoresEdificio)->jsonSerialize() ); ?>);
+        pormenor.push(<?php echo json_encode(array_shift($pormenoresEdificio)->jsonSerialize() ); ?>);
+
         var option = <?php echo $option?>;
-        
-        var ttt = 'Por1';
-     
         
         function setup3dhop() { 
                 presenter = new Presenter("draw-canvas");
@@ -236,19 +239,19 @@ and open the template in the editor.
         
         function onEnterInstance(id) {
             switch(id) {
-               case '1' : document.getElementById('titi').innerHTML = "Alçado 01"; document.getElementById('desi').innerHTML = " ";; break;
-               case '2' : document.getElementById('titi').innerHTML = "Alçado 02"; document.getElementById('desi').innerHTML = " ";; break;
-               case '3' : document.getElementById('titi').innerHTML = "Alçado 03"; document.getElementById('desi').innerHTML = " ";; break;
-               case '4' : document.getElementById('titi').innerHTML = "Alçado 04"; document.getElementById('desi').innerHTML = " ";; break;
-               case '5' : document.getElementById('titi').innerHTML = "Plano 01"; document.getElementById('desi').innerHTML = " ";; break;
-               case '6' : document.getElementById('titi').innerHTML = "Plano 02"; document.getElementById('desi').innerHTML = " ";; break;                   
+               case '1' : document.getElementById('titi').innerHTML = partesEdificio[0].parteEdificio.nome_parteEdificio; document.getElementById('desi').innerHTML = partesEdificio[0].parteEdificio.desc_parteEdificio; break;
+               case '2' : document.getElementById('titi').innerHTML = partesEdificio[1].parteEdificio.nome_parteEdificio; document.getElementById('desi').innerHTML = partesEdificio[1].parteEdificio.desc_parteEdificio; break;
+               case '3' : document.getElementById('titi').innerHTML = partesEdificio[2].parteEdificio.nome_parteEdificio; document.getElementById('desi').innerHTML = partesEdificio[2].parteEdificio.desc_parteEdificio; break;
+               case '4' : document.getElementById('titi').innerHTML = partesEdificio[3].parteEdificio.nome_parteEdificio; document.getElementById('desi').innerHTML = partesEdificio[3].parteEdificio.desc_parteEdificio; break;
+               case '5' : document.getElementById('titi').innerHTML = partesEdificio[4].parteEdificio.nome_parteEdificio; document.getElementById('desi').innerHTML = partesEdificio[4].parteEdificio.desc_parteEdificio; break;
+               case '6' : document.getElementById('titi').innerHTML = partesEdificio[5].parteEdificio.nome_parteEdificio; document.getElementById('desi').innerHTML = partesEdificio[5].parteEdificio.desc_parteEdificio; break;                   
             }
         }
         
         function onPickedSpot(id) {
           switch(id) {
-             case 'Por1'   : document.getElementById('tit').innerHTML = name_pormenor; document.getElementById('des').innerHTML = des_pormenor;break;
-             case 'Por2' : document.getElementById('tit').innerHTML = "Figura ss"; document.getElementById('des').innerHTML = " ";break;
+             case 'Por1'   : document.getElementById('tit').innerHTML = pormenor[0].pormenor.name_por; document.getElementById('des').innerHTML = pormenor[0].pormenor.description_por;break;
+             case 'Por2' : document.getElementById('tit').innerHTML = pormenor[1].pormenor.name_por; document.getElementById('des').innerHTML = pormenor[1].pormenor.description_por;break;
           }
         }
 
