@@ -11,7 +11,7 @@
  *
  * @author pberna
  */
-class pormenor {
+class pormenor implements JsonSerializable {
 
     // Variáveis de instância
     private $id_por;

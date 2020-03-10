@@ -5,7 +5,7 @@
  *
  * @author pberna
  */
-class parteEdificio {
+class parteEdificio implements JsonSerializable {
     
     //variáveis de instância
     private $id_parteEdificio;

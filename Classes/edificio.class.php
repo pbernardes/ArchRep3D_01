@@ -11,7 +11,7 @@
  *
  * @author pberna
  */
-class edificio {
+class edificio implements JsonSerializable{
     
     // Variáveis de instância
     private $id_ed;
