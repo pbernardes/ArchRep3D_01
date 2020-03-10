@@ -26,7 +26,8 @@ and open the template in the editor.
         <script type="text/javascript" src="js/3DHOP/trackball_turntable_pan.js"></script>
         <script type="text/javascript" src="js/3DHOP/trackball_pantilt.js"></script>
         <!--UTILITY-->
-        <script type="text/javascript" src="js/3DHOP/init.js"></script>       
+        <script type="text/javascript" src="js/3DHOP/init.js"></script>   
+        
     </head>
     <body>        
         <?php
@@ -217,10 +218,7 @@ and open the template in the editor.
                 else if(action=='hotspot'|| action=='hotspot_on') { presenter.toggleSpotVisibility(HOP_ALL, true); presenter.enableOnHover(!presenter.isOnHoverEnabled()); hotspotSwitch(); }
                 else if(action=='full'  || action=='full_on') fullscreenSwitch(); 
         }
-        
-        function onLeaveSpot(){
-            document.getElementById('tit_pormenor').innerHTML = " "; document.getElementById('des_pormenor').innerHTML = " ";
-        }                               
+                                    
         
         function onEnterInstance( id ) {      
             document.getElementById('tit_parteEdificio').innerHTML = partesEdificio[id-1].parteEdificio.nome_parteEdificio; 
@@ -237,22 +235,16 @@ and open the template in the editor.
              case 'Por2' : document.getElementById('tit_pormenor').innerHTML = pormenor[1].pormenor.name_por; document.getElementById('des_pormenor').innerHTML = pormenor[1].pormenor.description_por;break;
           }
         }
-
-        function onPickedInstance(id) {
-            switch(id) {
-               case '1' : document.getElementById('titi').innerHTML = "Alçado 01"; document.getElementById('desi').innerHTML = " ";; break;
-               case '2' : document.getElementById('titi').innerHTML = "Alçado 02"; document.getElementById('desi').innerHTML = " ";; break;
-               case '3' : document.getElementById('titi').innerHTML = "Alçado 03"; document.getElementById('desi').innerHTML = " ";; break;
-               case '4' : document.getElementById('titi').innerHTML = "Alçado 04"; document.getElementById('desi').innerHTML = " ";; break;
-               case '5' : document.getElementById('titi').innerHTML = "Plano 01"; document.getElementById('desi').innerHTML = " ";; break;
-               case '6' : document.getElementById('titi').innerHTML = "Plano 02"; document.getElementById('desi').innerHTML = " ";; break;                   
-            }
-        }
+        
+        function onLeaveSpot(){
+            document.getElementById('tit_pormenor').innerHTML = " "; document.getElementById('des_pormenor').innerHTML = " ";
+        }   
 
         $(document).ready(function(){
                 init3dhop();
 
-                setup3dhop();                
+                setup3dhop();    
+                
                 resizeCanvas(1100, 750);
         });
     </script>        
