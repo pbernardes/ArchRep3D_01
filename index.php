@@ -97,10 +97,10 @@ and open the template in the editor.
                     // set meshes from buiding parts details
                     if( $i < ($numPormenorPartesEdificio - 1) ){
                         $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } , '; 
-                        $spots = $spots.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'},';
+                        $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'},';
                     }else{
                         $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } ';
-                        $spots = $spots.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'} ';
+                        $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'} ';
                     }                                           
                      
                 } // end FOR                
@@ -215,10 +215,8 @@ and open the template in the editor.
         } 
         
         function onPickedSpot(id) {
-          switch(id) {
-             case 'Por1' : document.getElementById('tit_pormenor').innerHTML = pormenor[0].pormenor.name_por; document.getElementById('des_pormenor').innerHTML = pormenor[0].pormenor.description_por;break;
-             case 'Por2' : document.getElementById('tit_pormenor').innerHTML = pormenor[1].pormenor.name_por; document.getElementById('des_pormenor').innerHTML = pormenor[1].pormenor.description_por;break;
-          }
+            document.getElementById('tit_pormenor').innerHTML = pormenor[id-1].pormenor.name_por; 
+            document.getElementById('des_pormenor').innerHTML = pormenor[id-1].pormenor.description_por;          
         }
         
         function onLeaveSpot(){
