@@ -12,7 +12,7 @@ $spots='';
 $transColor = 'transform : { matrix: SglMat4.mul(SglMat4.translation([0, 0, 0]), SglMat4.scaling([ 1.0, 1.0, 1.0])) },
                 color : [0.0, 0.25, 1.0]';
 
-function setOptions ( $mesh, $instance, $spot){
+function set3DHOPOptions ( $mesh, $instance, $spot){
     
     return '{
                         meshes: {'.$mesh.'},

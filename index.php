@@ -109,7 +109,7 @@ and open the template in the editor.
                 //echo 'Lista de pormenores vazia...';
             }                                   
             
-            $option = setOptions( $meshes, $modelInstances, $spots );
+            $option = set3DHOPOptions( $meshes, $modelInstances, $spots );
                        
         ?>
         <div class="jumbotron text-center" style="padding: 5px 5px 5px 5px">
