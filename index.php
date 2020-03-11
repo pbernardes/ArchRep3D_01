@@ -107,24 +107,9 @@ and open the template in the editor.
             } // end IF
             else {
                 //echo 'Lista de pormenores vazia...';
-            }            
-           
-            $option = '{
-                        meshes: {'.$meshes.'},
-                        modelInstances : {'.$modelInstances.'},
-                        spots : {'.$spots.'},
-                        trackball: {
-                                type : SphereTrackball,
-                                trackOptions : {
-                                        startPhi: 35.0,
-                                        startTheta: 15.0,
-                                        startDistance: 2.5,
-                                        minMaxPhi: [-360, 360],
-                                        minMaxTheta: [-360.0, 360.0],
-                                        minMaxDist: [0, 10.0]
-                                }
-                        }
-                }';
+            }                                   
+            
+            $option = setOptions( $meshes, $modelInstances, $spots );
                        
         ?>
         <div class="jumbotron text-center" style="padding: 5px 5px 5px 5px">
