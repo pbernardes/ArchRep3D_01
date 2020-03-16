@@ -46,8 +46,10 @@ and open the template in the editor.
             // load all data of the 'edificio'
             if( edificio::isEmpty_ed() > 0 ){
 
+                $id_edificio = 1;
+                
                 $ed = new edificio();   
-                $ed->getAllInfo_ed(1);                
+                $ed->getAllInfo_ed( $id_edificio );                                             
                 
                 // initialize the array of building parts
                 $partesEdificio[] = NULL;
@@ -56,10 +58,10 @@ and open the template in the editor.
                 $pormenoresEdificio[] = NULL;
 
                 // evaluates if building has parts
-                if( parteEdificio::isEmptyByIdEdificio_parteEdificio(1) > 0 ){
-                    
+                if( parteEdificio::isEmptyByIdEdificio_parteEdificio( $id_edificio ) > 0 ){
+                                       
                     // set the number of bulding parts
-                    $numPartesEdificio = parteEdificio::isEmptyByIdEdificio_parteEdificio(1);                    
+                    $numPartesEdificio = parteEdificio::isEmptyByIdEdificio_parteEdificio( $id_edificio );                    
                     
                     // set the array of buiding parts
                     for( $i =0; $i<$numPartesEdificio; $i++){
@@ -78,7 +80,7 @@ and open the template in the editor.
                     }
                     
                 }else{
-                    // what happens if the buiding has no parts...
+                    $numPartesEdificio = 0;
                 }
             }
             else{
