@@ -44,7 +44,7 @@ and open the template in the editor.
                         
                    
             // load all data of the 'edificio'
-            if( edificio::isEmpty_ed() > 0 ){
+            if( !edificio::isEmpty_ed() ){
 
                 $id_edificio = 1;
                 
@@ -58,10 +58,10 @@ and open the template in the editor.
                 $pormenoresEdificio[] = NULL;
 
                 // evaluates if building has parts
-                if( parteEdificio::isEmptyByIdEdificio_parteEdificio( $id_edificio ) > 0 ){
+                if( !parteEdificio::isEmptyByIdEdificio_parteEdificio( $id_edificio ) ){
                                        
                     // set the number of bulding parts
-                    $numPartesEdificio = parteEdificio::isEmptyByIdEdificio_parteEdificio( $id_edificio );                    
+                    $numPartesEdificio = parteEdificio::totalNumberByIdEdificio_parteEdificio( $id_edificio );                    
                     
                     // set the array of buiding parts
                     for( $i =0; $i<$numPartesEdificio; $i++){
@@ -81,6 +81,11 @@ and open the template in the editor.
                     
                 }else{
                     $numPartesEdificio = 0;
+                    
+                    $meshes = $meshes.'"Par'.$ed->getId_ed().'" : { url: "'.$ed->getModelPath_ed().'" }  ';
+                    
+                    $modelInstances = $modelInstances.'"'.$ed->getId_ed().'" : { mesh : "Par'.$ed->getModelPath_ed().'" } ';   
+                    
                 }
             }
             else{
@@ -213,7 +218,8 @@ and open the template in the editor.
         }
         
         function onLeaveInstance(){
-            document.getElementById('tit_parteEdificio').innerHTML = " "; document.getElementById('des_parteEdificio').innerHTML = " ";           
+            document.getElementById('tit_parteEdificio').innerHTML = " "; 
+            document.getElementById('des_parteEdificio').innerHTML = " ";           
         } 
         
         function onPickedSpot(id) {
@@ -222,7 +228,8 @@ and open the template in the editor.
         }
         
         function onLeaveSpot(){
-            document.getElementById('tit_pormenor').innerHTML = " "; document.getElementById('des_pormenor').innerHTML = " ";
+            document.getElementById('tit_pormenor').innerHTML = " "; 
+            document.getElementById('des_pormenor').innerHTML = " ";
         }   
 
         $(document).ready(function(){
