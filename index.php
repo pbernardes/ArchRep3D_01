@@ -57,18 +57,18 @@ and open the template in the editor.
                 // initialize the array of buiding parts detaisl
                 $pormenoresEdificio[] = NULL;
 
-                // evaluates if building has parts
+                // evaluates if 'edificio' has 'partes'
                 if( !parteEdificio::isEmptyByIdEdificio_parteEdificio( $id_edificio ) ){
                                        
-                    // set the number of bulding parts
+                    // determine the number of 'partes' from 'edificio'
                     $numPartesEdificio = parteEdificio::totalNumberByIdEdificio_parteEdificio( $id_edificio );                    
                     
-                    // set the array of buiding parts
+                    // set the array of 'partes' from 'edificio'
                     for( $i =0; $i<$numPartesEdificio; $i++){
                         $partesEdificio[$i] = new parteEdificio();
                         $partesEdificio[$i]->getAllInfo_parteEdificio(($i+1));                      
                        
-                        // set meshes from buiding parts
+                        // set meshes from 'partes' from 'edificio'
                         $meshes = $meshes.'"Par'.$partesEdificio[$i]->getId_parteEdificio().'" : { url: "'.$partesEdificio[$i]->getModelPath_parteEdificio().'" } , ';
                        
                         // set model instances
@@ -77,47 +77,44 @@ and open the template in the editor.
                         }else{
                             $modelInstances = $modelInstances.'"'.$partesEdificio[$i]->getId_parteEdificio().'" : { mesh : "Par'.$partesEdificio[$i]->getId_parteEdificio().'" } ';   
                         }
-                    }
+                    }                                        
+                    
+                    if ( !pormenor::isEmpty_por() ){
+                
+                        // set the number of buiding part details ('pormenor')
+                        $numPormenorPartesEdificio = pormenor::totalNumber_por();
+
+                        for( $i = 0; $i < $numPormenorPartesEdificio; $i++){
+                            $pormenoresEdificio[$i] = new pormenor();
+                            $pormenoresEdificio[$i]->getAllInfo_por($i+1);                                       
+
+                            // set meshes from buiding parts details
+                            if( $i < ($numPormenorPartesEdificio - 1) ){
+                                $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } , '; 
+                                $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'},';
+                            }else{
+                                $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } ';
+                                $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'} ';
+                            }                                                                                                  
+                        } // end FOR                
+                        
+                        $option = set3DHOPOptions_WithSpots( $meshes, $modelInstances, $spots );
+                        
+                    } // end IF                    
                     
                 }else{
                     $numPartesEdificio = 0;
                     
                     $meshes = $meshes.'"Par'.$ed->getId_ed().'" : { url: "'.$ed->getModelPath_ed().'" }  ';
                     
-                    $modelInstances = $modelInstances.'"'.$ed->getId_ed().'" : { mesh : "Par'.$ed->getModelPath_ed().'" } ';   
+                    $modelInstances = $modelInstances.'"'.$ed->getId_ed().'" : { mesh : "Par'.$ed->getId_ed().'" } ';                       
                     
-                }
+                    $option = set3DHOPOptions_WithoutSpots($meshes, $modelInstances);
+                } // ELSE
             }
             else{
                 echo 'Lista de edificios vazia...';
-            }
-            
-            if ( !pormenor::isEmpty_por() ){
-                
-                // set the number of buiding part details ('pormenor')
-                $numPormenorPartesEdificio = pormenor::totalNumber_por();
-                
-                for( $i = 0; $i < $numPormenorPartesEdificio; $i++){
-                    $pormenoresEdificio[$i] = new pormenor();
-                    $pormenoresEdificio[$i]->getAllInfo_por($i+1);                                       
-                    
-                    // set meshes from buiding parts details
-                    if( $i < ($numPormenorPartesEdificio - 1) ){
-                        $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } , '; 
-                        $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'},';
-                    }else{
-                        $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } ';
-                        $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'} ';
-                    }                                           
-                     
-                } // end FOR                
-            } // end IF
-            else {
-                //echo 'Lista de pormenores vazia...';
-            }                                   
-            
-            $option = set3DHOPOptions( $meshes, $modelInstances, $spots );
-                       
+            }            
         ?>
         <div class="jumbotron text-center" style="padding: 5px 5px 5px 5px">
             <h1>3D Representation of Archaeology of Architecture</h1>  
