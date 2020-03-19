@@ -176,6 +176,7 @@ and open the template in the editor.
         var presenter = null;
                 
         var edificio = <?php echo json_encode( $ed ); ?>; 
+        var numPartesEdificio = <?php echo json_encode($numPartesEdificio)?>;
                 
         var partesEdificio = <?php echo json_encode( $partesEdificio ); ?>;        
         
@@ -210,9 +211,17 @@ and open the template in the editor.
         }
                                     
         
-        function onEnterInstance( id ) {      
-            document.getElementById('tit_parteEdificio').innerHTML = partesEdificio[id-1].parteEdificio.nome_parteEdificio; 
-            document.getElementById('des_parteEdificio').innerHTML = partesEdificio[id-1].parteEdificio.desc_parteEdificio;
+        function onEnterInstance( id ) {
+            
+            if ( numPartesEdificio > 0 ){
+                document.getElementById('tit_parteEdificio').innerHTML = partesEdificio[id-1].parteEdificio.nome_parteEdificio; 
+                document.getElementById('des_parteEdificio').innerHTML = partesEdificio[id-1].parteEdificio.desc_parteEdificio;
+            }
+            else{
+                document.getElementById('tit_parteEdificio').innerHTML = edificio.edificio.name_ed; 
+                document.getElementById('des_parteEdificio').innerHTML = edificio.edificio.description_ed;
+            }
+            
         }
         
         function onLeaveInstance(){
