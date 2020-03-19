@@ -46,7 +46,7 @@ and open the template in the editor.
             // load all data of the 'edificio'
             if( !edificio::isEmpty_ed() ){
 
-                $id_edificio = 1;
+                $id_edificio = 1;                
                 
                 $ed = new edificio();   
                 $ed->getAllInfo_ed( $id_edificio );                                             
@@ -110,6 +110,7 @@ and open the template in the editor.
                     $modelInstances = $modelInstances.'"'.$ed->getId_ed().'" : { mesh : "Par'.$ed->getId_ed().'" } ';                       
                     
                     $option = set3DHOPOptions_WithoutSpots($meshes, $modelInstances);
+                    
                 } // ELSE
             }
             else{
