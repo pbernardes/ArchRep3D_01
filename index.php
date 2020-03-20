@@ -128,8 +128,6 @@ and open the template in the editor.
                             <img id="home"       title="Home"                  src="skins/dark/home.png"            /><br/>
                             <img id="zoomin"     title="Zoom In"               src="skins/dark/zoomin.png"          /><br/>
                             <img id="zoomout"    title="Zoom Out"              src="skins/dark/zoomout.png"         /><br/>
-                            <!--img id="light_on"   title="Disable Light Control" src="skins/dark/lightcontrol_on.png" style="position:absolute; visibility:hidden;"/-->
-                            <!--img id="light"      title="Enable Light Control"  src="skins/dark/lightcontrol.png"    /><br/-->
                             <img id="hotspot_on" title="Hide Hotspots"         src="skins/dark/pin_on.png"          style="position:absolute; visibility:hidden;"/>
                             <img id="hotspot"    title="Show Hotspots"         src="skins/dark/pin.png"             /><br/>
                             <!--img id="full_on"    title="Exit Full Screen"      src="skins/dark/full_on.png"         style="position:absolute; visibility:hidden;"/>
