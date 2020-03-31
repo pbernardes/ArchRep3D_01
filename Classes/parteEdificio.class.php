@@ -163,12 +163,13 @@ class parteEdificio implements JsonSerializable {
     
     /**
      * 
-     * @return int number of total objects
+     * @param int $id_edificio
+     * 
+     * @return Boolean
      * 
      * @author Paulo Bernardes
      */
-    public static function isEmpty_parteEdificio(){
-        
+    public static function isEmptyByIdEdificio_parteEdificio ( $id_edificio ){
         // create DB connection
         $con = connectDatabase();
 
@@ -176,23 +177,27 @@ class parteEdificio implements JsonSerializable {
         selectDatabase( $con );
  
         // select data
-        $result = mysqli_query( $con, 'SELECT COUNT(*) AS NumPartes FROM parte_edificio');
+        $result = mysqli_query( $con, 'SELECT COUNT(*) AS NumPartes FROM partes_edificio WHERE id_edificio='.$id_edificio);
         
+        // set number of 'partes'
         $row = mysqli_fetch_assoc( $result );
         
+        // close database
         mysqli_close( $con );
         
-        return $row['NumPartes'];                        
-    } // end of isEmpty_parteEdificio()
-    
+        //return true if table is empty
+        return ($row['NumPartes'] == 0);        
+    }// end of isEmptyByIdEdificio_parteEdificio ( $id_edificio )
+
     /**
      * 
      * @param int $id_edificio
+     * 
      * @return int number of objects
      * 
      * @author Paulo Bernardes
      */
-    public static function isEmptyByIdEdificio_parteEdificio( $id_edificio ){
+    public static function totalNumberByIdEdificio_parteEdificio( $id_edificio ){
         
         // create DB connection
         $con = connectDatabase();
@@ -211,7 +216,7 @@ class parteEdificio implements JsonSerializable {
         
         // return number of 'partes'
         return $row['NumPartes'];                        
-    } // end of isEmptyByIdEdificio_parteEdificio( $id_edificio )   
+    } // end of totalNumberByIdEdificio_parteEdificio( $id_edificio )   
     
     /**
      * 

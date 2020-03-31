@@ -44,10 +44,12 @@ and open the template in the editor.
                         
                    
             // load all data of the 'edificio'
-            if( edificio::isEmpty_ed() > 0 ){
+            if( !edificio::isEmpty_ed() ){
 
+                $id_edificio = 1;                
+                
                 $ed = new edificio();   
-                $ed->getAllInfo_ed(1);                
+                $ed->getAllInfo_ed( $id_edificio );                                             
                 
                 // initialize the array of building parts
                 $partesEdificio[] = NULL;
@@ -55,18 +57,18 @@ and open the template in the editor.
                 // initialize the array of buiding parts detaisl
                 $pormenoresEdificio[] = NULL;
 
-                // evaluates if building has parts
-                if( parteEdificio::isEmptyByIdEdificio_parteEdificio(1) > 0 ){
+                // evaluates if 'edificio' has 'partes'
+                if( !parteEdificio::isEmptyByIdEdificio_parteEdificio( $id_edificio ) ){
+                                       
+                    // determine the number of 'partes' from 'edificio'
+                    $numPartesEdificio = parteEdificio::totalNumberByIdEdificio_parteEdificio( $id_edificio );                    
                     
-                    // set the number of bulding parts
-                    $numPartesEdificio = parteEdificio::isEmptyByIdEdificio_parteEdificio(1);                    
-                    
-                    // set the array of buiding parts
+                    // set the array of 'partes' from 'edificio'
                     for( $i =0; $i<$numPartesEdificio; $i++){
                         $partesEdificio[$i] = new parteEdificio();
                         $partesEdificio[$i]->getAllInfo_parteEdificio(($i+1));                      
                        
-                        // set meshes from buiding parts
+                        // set meshes from 'partes' from 'edificio'
                         $meshes = $meshes.'"Par'.$partesEdificio[$i]->getId_parteEdificio().'" : { url: "'.$partesEdificio[$i]->getModelPath_parteEdificio().'" } , ';
                        
                         // set model instances
@@ -75,42 +77,45 @@ and open the template in the editor.
                         }else{
                             $modelInstances = $modelInstances.'"'.$partesEdificio[$i]->getId_parteEdificio().'" : { mesh : "Par'.$partesEdificio[$i]->getId_parteEdificio().'" } ';   
                         }
-                    }
+                    }                                        
+                    
+                    if ( !pormenor::isEmpty_por() ){
+                
+                        // set the number of buiding part details ('pormenor')
+                        $numPormenorPartesEdificio = pormenor::totalNumber_por();
+
+                        for( $i = 0; $i < $numPormenorPartesEdificio; $i++){
+                            $pormenoresEdificio[$i] = new pormenor();
+                            $pormenoresEdificio[$i]->getAllInfo_por($i+1);                                       
+
+                            // set meshes from buiding parts details
+                            if( $i < ($numPormenorPartesEdificio - 1) ){
+                                $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } , '; 
+                                $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'},';
+                            }else{
+                                $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } ';
+                                $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'} ';
+                            }                                                                                                  
+                        } // end FOR                
+                        
+                        $option = set3DHOPOptions_WithSpots( $meshes, $modelInstances, $spots );
+                        
+                    } // end IF                    
                     
                 }else{
-                    // what happens if the buiding has no parts...
-                }
+                    $numPartesEdificio = 0;
+                    
+                    $meshes = $meshes.'"Par'.$ed->getId_ed().'" : { url: "'.$ed->getModelPath_ed().'" }  ';
+                    
+                    $modelInstances = $modelInstances.'"'.$ed->getId_ed().'" : { mesh : "Par'.$ed->getId_ed().'" } ';                       
+                    
+                    $option = set3DHOPOptions_WithoutSpots($meshes, $modelInstances);
+                    
+                } // ELSE
             }
             else{
                 echo 'Lista de edificios vazia...';
-            }
-            
-            if ( !pormenor::isEmpty_por() ){
-                
-                // set the number of buiding part details ('pormenor')
-                $numPormenorPartesEdificio = pormenor::totalNumber_por();
-                
-                for( $i = 0; $i < $numPormenorPartesEdificio; $i++){
-                    $pormenoresEdificio[$i] = new pormenor();
-                    $pormenoresEdificio[$i]->getAllInfo_por($i+1);                                       
-                    
-                    // set meshes from buiding parts details
-                    if( $i < ($numPormenorPartesEdificio - 1) ){
-                        $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } , '; 
-                        $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'},';
-                    }else{
-                        $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } ';
-                        $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'} ';
-                    }                                           
-                     
-                } // end FOR                
-            } // end IF
-            else {
-                //echo 'Lista de pormenores vazia...';
-            }                                   
-            
-            $option = set3DHOPOptions( $meshes, $modelInstances, $spots );
-                       
+            }            
         ?>
         <div class="jumbotron text-center" style="padding: 5px 5px 5px 5px">
             <h1>3D Representation of Archaeology of Architecture</h1>  
@@ -123,8 +128,6 @@ and open the template in the editor.
                             <img id="home"       title="Home"                  src="skins/dark/home.png"            /><br/>
                             <img id="zoomin"     title="Zoom In"               src="skins/dark/zoomin.png"          /><br/>
                             <img id="zoomout"    title="Zoom Out"              src="skins/dark/zoomout.png"         /><br/>
-                            <!--img id="light_on"   title="Disable Light Control" src="skins/dark/lightcontrol_on.png" style="position:absolute; visibility:hidden;"/-->
-                            <!--img id="light"      title="Enable Light Control"  src="skins/dark/lightcontrol.png"    /><br/-->
                             <img id="hotspot_on" title="Hide Hotspots"         src="skins/dark/pin_on.png"          style="position:absolute; visibility:hidden;"/>
                             <img id="hotspot"    title="Show Hotspots"         src="skins/dark/pin.png"             /><br/>
                             <!--img id="full_on"    title="Exit Full Screen"      src="skins/dark/full_on.png"         style="position:absolute; visibility:hidden;"/>
@@ -171,6 +174,7 @@ and open the template in the editor.
         var presenter = null;
                 
         var edificio = <?php echo json_encode( $ed ); ?>; 
+        var numPartesEdificio = <?php echo json_encode($numPartesEdificio)?>;
                 
         var partesEdificio = <?php echo json_encode( $partesEdificio ); ?>;        
         
@@ -205,13 +209,22 @@ and open the template in the editor.
         }
                                     
         
-        function onEnterInstance( id ) {      
-            document.getElementById('tit_parteEdificio').innerHTML = partesEdificio[id-1].parteEdificio.nome_parteEdificio; 
-            document.getElementById('des_parteEdificio').innerHTML = partesEdificio[id-1].parteEdificio.desc_parteEdificio;
+        function onEnterInstance( id ) {
+            
+            if ( numPartesEdificio > 0 ){
+                document.getElementById('tit_parteEdificio').innerHTML = partesEdificio[id-1].parteEdificio.nome_parteEdificio; 
+                document.getElementById('des_parteEdificio').innerHTML = partesEdificio[id-1].parteEdificio.desc_parteEdificio;
+            }
+            else{
+                document.getElementById('tit_parteEdificio').innerHTML = edificio.edificio.name_ed; 
+                document.getElementById('des_parteEdificio').innerHTML = edificio.edificio.description_ed;
+            }
+            
         }
         
         function onLeaveInstance(){
-            document.getElementById('tit_parteEdificio').innerHTML = " "; document.getElementById('des_parteEdificio').innerHTML = " ";           
+            document.getElementById('tit_parteEdificio').innerHTML = " "; 
+            document.getElementById('des_parteEdificio').innerHTML = " ";           
         } 
         
         function onPickedSpot(id) {
@@ -220,7 +233,8 @@ and open the template in the editor.
         }
         
         function onLeaveSpot(){
-            document.getElementById('tit_pormenor').innerHTML = " "; document.getElementById('des_pormenor').innerHTML = " ";
+            document.getElementById('tit_pormenor').innerHTML = " "; 
+            document.getElementById('des_pormenor').innerHTML = " ";
         }   
 
         $(document).ready(function(){

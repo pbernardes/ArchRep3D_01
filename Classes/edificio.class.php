@@ -114,11 +114,37 @@ class edificio implements JsonSerializable{
     
     /**
      * 
+     * @return boolean
+     * 
+     * @author Paulo Bernardes
+     */
+    public static function isEmpty_ed(){
+        // create DB connection
+        $con = connectDatabase();
+
+        // select DB
+        selectDatabase( $con );
+ 
+        // select data
+        $result = mysqli_query( $con, 'SELECT COUNT(*) as NumEdi FROM edificio');
+        
+        // count the number of objects in the table
+        $row = mysqli_fetch_assoc( $result );      
+        
+        // close the DB
+        mysqli_close( $con );
+        
+        //return the number of objects in the table
+        return ( $row['NumEdi'] == 0 ) ;                
+    }
+
+    /**
+     * 
      * @return int
      * 
      * @author Paulo Bernardes
      */
-    public static  function isEmpty_ed(){
+    public static  function totalNumber_ed(){
         // create DB connection
         $con = connectDatabase();
 

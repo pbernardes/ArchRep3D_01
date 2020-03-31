@@ -133,7 +133,7 @@ class pormenor implements JsonSerializable {
         // close the DB
         mysqli_close( $con );
         
-        //return the number of objects in the table
+        //return true if table is empty
         return ( $row['NumPor'] == 0 );        
     } // end of isEmpty_ed()
       
