@@ -44,8 +44,14 @@ and open the template in the editor.
             include 'Classes/pormenor.class.php';
             include 'Classes/parteEdificio.class.php';
             
+            if( null !== filter_input( INPUT_POST, 'edificio')){
+                $ed_id = filter_input( INPUT_POST, 'edificio');
+            }else{
+                $ed_id=1;
+            }            
+            
             // load all data of the 'edificio'
-            $option = setup_OptionOf3DHOPsetScene(1, $ed, $partesEdificio, $numPartesEdificio, $pormenoresEdificio);
+            $option = setup_OptionOf3DHOPsetScene($ed_id, $ed, $partesEdificio, $numPartesEdificio, $pormenoresEdificio);
                       
         ?>
         <div class="jumbotron text-center" style="padding: 5px 5px 5px 5px">
@@ -79,23 +85,25 @@ and open the template in the editor.
                     </table>
                 </div>
                 <div class="col-2" style="background-color: lightgray">
-                    <form action="index.php">
-    <div class="form-group">
-        <?php
-            // determine the number of "edificios" in the DB
-            $numEd = edificio::totalNumber_ed();
-        ?>
-        <label for="sel2">Select 3D representation:</label>
-        <select multiple class="form-control" id="sel2" name="sellist2">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Select</button>
-  </form>                    
+                    <form role="form" name="form_ed" method="post" action="index.php">
+                        <div class="form-group">
+                            <?php
+                                // determine the number of "edificios" in the DB
+                                $numEd = edificio::totalNumber_ed();
+                            ?>
+                            <label for="edi">Select 3D representation:</label>
+                            <select multiple class="form-control" id="edi" name="edificio">
+                            <?php
+                                for ( $i=0; $i<$numEd; $i++){
+                            ?>
+                                <option><?php echo ($i+1) ?></option>
+                            <?php
+                                }
+                            ?>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Select</button>
+                    </form>                    
                 </div>
             </div>
             <div class="row">
