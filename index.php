@@ -31,91 +31,22 @@ and open the template in the editor.
     </head>
     <body>        
         <?php
-            // to access DB
-            include 'funcAux/funcAux_BD.php';
-            
             // to access variables
             include 'funcAux/init_varArchRep3D.php';
+            
+            // to access DB
+            include 'funcAux/funcAux_BD.php';
+            include 'funcAux/init_funcAux.php';
+                        
             
             // to access Classes
             include 'Classes/edificio.class.php';  
             include 'Classes/pormenor.class.php';
             include 'Classes/parteEdificio.class.php';
-                        
-                   
+            
             // load all data of the 'edificio'
-            if( !edificio::isEmpty_ed() ){
-
-                $id_edificio = 1;                
-                
-                $ed = new edificio();   
-                $ed->getAllInfo_ed( $id_edificio );                                             
-                
-                // initialize the array of building parts
-                $partesEdificio[] = NULL;
-                
-                // initialize the array of buiding parts detaisl
-                $pormenoresEdificio[] = NULL;
-
-                // evaluates if 'edificio' has 'partes'
-                if( !parteEdificio::isEmptyByIdEdificio_parteEdificio( $id_edificio ) ){
-                                       
-                    // determine the number of 'partes' from 'edificio'
-                    $numPartesEdificio = parteEdificio::totalNumberByIdEdificio_parteEdificio( $id_edificio );                    
-                    
-                    // set the array of 'partes' from 'edificio'
-                    for( $i =0; $i<$numPartesEdificio; $i++){
-                        $partesEdificio[$i] = new parteEdificio();
-                        $partesEdificio[$i]->getAllInfo_parteEdificio(($i+1));                      
-                       
-                        // set meshes from 'partes' from 'edificio'
-                        $meshes = $meshes.'"Par'.$partesEdificio[$i]->getId_parteEdificio().'" : { url: "'.$partesEdificio[$i]->getModelPath_parteEdificio().'" } , ';
-                       
-                        // set model instances
-                        if ( $i < ($numPartesEdificio-1) ){
-                            $modelInstances = $modelInstances.'"'.$partesEdificio[$i]->getId_parteEdificio().'" : { mesh : "Par'.$partesEdificio[$i]->getId_parteEdificio().'" } , ';
-                        }else{
-                            $modelInstances = $modelInstances.'"'.$partesEdificio[$i]->getId_parteEdificio().'" : { mesh : "Par'.$partesEdificio[$i]->getId_parteEdificio().'" } ';   
-                        }
-                    }                                        
-                    
-                    if ( !pormenor::isEmpty_por() ){
-                
-                        // set the number of buiding part details ('pormenor')
-                        $numPormenorPartesEdificio = pormenor::totalNumber_por();
-
-                        for( $i = 0; $i < $numPormenorPartesEdificio; $i++){
-                            $pormenoresEdificio[$i] = new pormenor();
-                            $pormenoresEdificio[$i]->getAllInfo_por($i+1);                                       
-
-                            // set meshes from buiding parts details
-                            if( $i < ($numPormenorPartesEdificio - 1) ){
-                                $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } , '; 
-                                $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'},';
-                            }else{
-                                $meshes = $meshes.'"Por'.$pormenoresEdificio[$i]->getId_por().'" : { url: "'.$pormenoresEdificio[$i]->getModelPath_por().'" } ';
-                                $spots = $spots.'"'.$pormenoresEdificio[$i]->getId_por().'" : { mesh : "Por'.$pormenoresEdificio[$i]->getId_por().'",'.$transColor.'} ';
-                            }                                                                                                  
-                        } // end FOR                
-                        
-                        $option = set3DHOPOptions_WithSpots( $meshes, $modelInstances, $spots );
-                        
-                    } // end IF                    
-                    
-                }else{
-                    $numPartesEdificio = 0;
-                    
-                    $meshes = $meshes.'"Par'.$ed->getId_ed().'" : { url: "'.$ed->getModelPath_ed().'" }  ';
-                    
-                    $modelInstances = $modelInstances.'"'.$ed->getId_ed().'" : { mesh : "Par'.$ed->getId_ed().'" } ';                       
-                    
-                    $option = set3DHOPOptions_WithoutSpots($meshes, $modelInstances);
-                    
-                } // ELSE
-            }
-            else{
-                echo 'Lista de edificios vazia...';
-            }            
+            $option = setup_OptionOf3DHOPsetScene(1, $ed, $partesEdificio, $numPartesEdificio, $pormenoresEdificio);
+                      
         ?>
         <div class="jumbotron text-center" style="padding: 5px 5px 5px 5px">
             <h1>3D Representation of Archaeology of Architecture</h1>  
@@ -137,17 +68,34 @@ and open the template in the editor.
                     </div> 
                     <div id="tdhlg"></div>
                 </div>
-                <div class="col-3" style="background-color: gray">                   
-                    <table>
-                        <h3 id="tit_pormenor"></h3>
-                        <p id="des_pormenor"></p>
-                    </table>
-                </div>
-                <div class="col-2" style="background-color: lightgray">
+                <div class="col-3" style="background-color: gray">                                       
                     <table>
                         <h3 id="tit_parteEdificio"></h3>
                         <p id="des_parteEdificio"></p>
                     </table>
+                    <table>
+                        <h4 id="tit_pormenor"></h4>
+                        <p id="des_pormenor"></p>
+                    </table>
+                </div>
+                <div class="col-2" style="background-color: lightgray">
+                    <form action="index.php">
+    <div class="form-group">
+        <?php
+            // determine the number of "edificios" in the DB
+            $numEd = edificio::totalNumber_ed();
+        ?>
+        <label for="sel2">Select 3D representation:</label>
+        <select multiple class="form-control" id="sel2" name="sellist2">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Select</button>
+  </form>                    
                 </div>
             </div>
             <div class="row">
@@ -174,10 +122,8 @@ and open the template in the editor.
         var presenter = null;
                 
         var edificio = <?php echo json_encode( $ed ); ?>; 
-        var numPartesEdificio = <?php echo json_encode($numPartesEdificio)?>;
-                
-        var partesEdificio = <?php echo json_encode( $partesEdificio ); ?>;        
-        
+        var numPartesEdificio = <?php echo json_encode($numPartesEdificio)?>;                
+        var partesEdificio = <?php echo json_encode( $partesEdificio ); ?>;                
         var pormenor = <?php echo json_encode( $pormenoresEdificio ); ?>;
 
         var option = <?php echo $option?>;

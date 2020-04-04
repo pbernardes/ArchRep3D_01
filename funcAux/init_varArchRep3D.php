@@ -6,48 +6,14 @@
  * and open the template in the editor.
  */
 
-$meshes='';
-$modelInstances='';
-$spots='';
-$transColor = 'transform : { matrix: SglMat4.mul(SglMat4.translation([0, 0, 0]), SglMat4.scaling([ 1.0, 1.0, 1.0])) },
-                color : [0.0, 0.25, 1.0]';
+$ed = NULL;
 
-function set3DHOPOptions_WithSpots ( $mesh, $instance, $spot){
-    
-    return '{
-                        meshes: {'.$mesh.'},
-                        modelInstances : {'.$instance.'},
-                        spots : {'.$spot.'},
-                        trackball: {
-                                type : SphereTrackball,
-                                trackOptions : {
-                                        startPhi: 35.0,
-                                        startTheta: 15.0,
-                                        startDistance: 2.5,
-                                        minMaxPhi: [-360, 360],
-                                        minMaxTheta: [-360.0, 360.0],
-                                        minMaxDist: [0, 10.0]
-                                }
-                        }
-                }';
-    
-}
+// initialize the array of building parts
+$partesEdificio[] = NULL;
 
-function set3DHOPOptions_WithoutSpots ( $mesh, $instance ){
-    
-    return '{
-                        meshes: {'.$mesh.'},
-                        modelInstances : {'.$instance.'},                        
-                        trackball: {
-                                type : SphereTrackball,
-                                trackOptions : {
-                                        startPhi: 35.0,
-                                        startTheta: 15.0,
-                                        startDistance: 2.5,
-                                        minMaxPhi: [-360, 360],
-                                        minMaxTheta: [-360.0, 360.0],
-                                        minMaxDist: [0, 10.0]
-                                }
-                        }
-                }';
-}
+// initialize the array of buiding parts detaisl
+$pormenoresEdificio[] = NULL;
+
+$numPartesEdificio = 0;
+                    
+$option = '';
